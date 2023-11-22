@@ -1,0 +1,23 @@
+class FinancialSystem:
+    def __init__(self, company_name, initial_balance):
+        self.company_name = company_name
+        self.balance = initial_balance
+
+    def deposit(self, amount):
+        self.balance += amount
+
+    def withdraw(self, amount):
+        if self.balance >= amount:
+            self.balance -= amount
+        else:
+            print("Insufficient funds")
+
+    def get_balance(self):
+        return self.balance
+
+
+# Example usage
+company = FinancialSystem("ABC Company", 10000)
+company.deposit(5000)
+company.withdraw(2000)
+print(company.get_balance())
