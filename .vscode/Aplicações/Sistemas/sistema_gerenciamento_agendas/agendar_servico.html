@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar Serviço</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Agendar Serviço</h1>
+    <form method="post">
+        <label for="cliente_id">Cliente:</label>
+        <select name="cliente_id" required>
+            {% for cliente in clientes %}
+                <option value="{{ cliente[0] }}">{{ cliente[1] }}</option>
+            {% endfor %}
+        </select>
+        <label for="servico_id">Serviço:</label>
+        <select name="servico_id" required>
+            {% for servico in servicos %}
+                <option value="{{ servico[0] }}">{{ servico[1] }}</option>
+            {% endfor %}
+        </select>
+        <label for="data_hora">Data e Hora:</label>
+        <input type="datetime-local" name="data_hora" required>
+        <button type="submit">Agendar</button>
+    </form>
+</body>
+</html>
