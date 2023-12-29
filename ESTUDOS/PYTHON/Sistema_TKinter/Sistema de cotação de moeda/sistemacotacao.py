@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 from tkcalendar import DateEntry
+import pandas as pd
 import requests
 
 requisicao = requests.get('https://economia.awesomeapi.com.br/json/all') #last/:moedas
@@ -28,7 +29,32 @@ def selecionar_arquivo():
        label_arquivoselecionado['text'] = f"Arquivo selecionado: {caminho_arquivo}"
 
 def atualizar_cotacoes():
-    pass
+    # Ler o dataframe de moeda
+    df = pd.read_excel(var_caminhoarquivo.get())
+    moedas = df.iloc[:, 0]
+    # Pegar a data inicio e data fim das cotações
+    data_inicial = calendario_datainicial.get()
+    data_final = calendario_datafinal.get()
+    ano_inicial = data_inicial[-4:]
+    mes_inicial = data_inicial[3:5]
+    dia_inicial = data_inicial[:2]
+    
+    ano_final = data_final[-4:]
+    mes_final = data_final[3:5]
+    dia_final = data_final[:2]
+    
+    for moeda in moedas:
+            link = f"https://economia.awesomeapi.com.br/json/daily/{moeda}-BRL/?start_date={ano_inicial}{mes_inicial}{dia_inicial}&end_date={ano_final}{mes_final}{dia_final}"
+            requisicao_moeda = requests.get(link)
+            cotacoes = requisicao_moeda.json()
+            
+            
+    # Para cada moeda
+        # Pegar todas as cotações daquela moeda
+        # Criar uma coluna em um novo dataframe com todas as cotações daquela moeda
+    # Criar um arquivo com todas as cotações
+    
+
 
 janela = tk.Tk()
 
@@ -93,4 +119,4 @@ botao_fechar.grid(row=10, column=3, padx=10, pady=10, sticky='nswe')
 
 janela.mainloop()
 
-#F703 - Python impressionador | proximo #704
+#F704 - Python impressionador | proximo #705
