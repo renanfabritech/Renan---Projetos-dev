@@ -1,11 +1,21 @@
 import tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
+import requests
 
-lista_moedas = ['USD', 'EUR']
+requisicao = requests.get('https://economia.awesomeapi.com.br/json/all') #last/:moedas
+dicionario_moedas = requisicao.json()
+#print(dicionario_moedas)
+lista_moedas = list(dicionario_moedas.keys())
 
 def pegar_cotacao():
-    pass
+    moeda = combobox_selecionarmoeda.get()
+    data_cotacao = calendario_moeda.get()
+    ano = data_cotacao[-4:]
+    mes = data_cotacao[3:5]
+    dia = data_cotacao[:2]
+    link = f"https://economia.awesomeapi.com.br/json/daily/{moeda}-BRL/?start_date={ano}{mes}{dia}&end_date={ano}{mes}{dia}"
+    print(link)
 
 def selecionar_arquivo():
     pass
@@ -74,4 +84,4 @@ botao_fechar.grid(row=10, column=3, padx=10, pady=10, sticky='nswe')
 
 janela.mainloop()
 
-#F700 - Python impressionador | proximo #701
+#F701 - Python impressionador | proximo #702
