@@ -2,8 +2,10 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 from tkcalendar import DateEntry
+from datetime import datetime
 import pandas as pd
 import requests
+import numpy as np
 
 requisicao = requests.get('https://economia.awesomeapi.com.br/json/all') #last/:moedas
 dicionario_moedas = requisicao.json()
@@ -47,7 +49,19 @@ def atualizar_cotacoes():
             link = f"https://economia.awesomeapi.com.br/json/daily/{moeda}-BRL/?start_date={ano_inicial}{mes_inicial}{dia_inicial}&end_date={ano_final}{mes_final}{dia_final}"
             requisicao_moeda = requests.get(link)
             cotacoes = requisicao_moeda.json()
-            
+            for cotacao in cotacoes:
+                timestamp = int(cotacao['timestamp'])
+                bid = float(cotacao['bid'])
+                data = datetime.fromtimestamp(timestamp)
+                data = data.strftime('%Y-%m-%d')  # ou outro formato desejado
+                if data not in df:
+                    df[data] = np.nan
+                    
+                df.loc[df.iloc[:, 0] == moeda, data] = bid
+    df.to_excel("teste.xlsx")
+    label_atualizarcotacoes['text'] = "Arquivo atualizado com sucesso"
+    
+                
             
     # Para cada moeda
         # Pegar todas as cotações daquela moeda
@@ -119,4 +133,4 @@ botao_fechar.grid(row=10, column=3, padx=10, pady=10, sticky='nswe')
 
 janela.mainloop()
 
-#F704 - Python impressionador | proximo #705
+#F705 - Python impressionador | proximo #706
