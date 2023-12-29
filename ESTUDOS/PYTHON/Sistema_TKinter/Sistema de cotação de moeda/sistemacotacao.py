@@ -15,7 +15,10 @@ def pegar_cotacao():
     mes = data_cotacao[3:5]
     dia = data_cotacao[:2]
     link = f"https://economia.awesomeapi.com.br/json/daily/{moeda}-BRL/?start_date={ano}{mes}{dia}&end_date={ano}{mes}{dia}"
-    print(link)
+    requisicao_moeda = requests.get(link)
+    cotacao = requisicao_moeda.json()
+    valor_moeda = cotacao[0]['bid']
+    label_textocotacao['text'] = f"A cotação da moeda {moeda} no dia {data_cotacao} foi de R${valor_moeda}"
 
 def selecionar_arquivo():
     pass
@@ -84,4 +87,4 @@ botao_fechar.grid(row=10, column=3, padx=10, pady=10, sticky='nswe')
 
 janela.mainloop()
 
-#F701 - Python impressionador | proximo #702
+#F702 - Python impressionador | proximo #703
