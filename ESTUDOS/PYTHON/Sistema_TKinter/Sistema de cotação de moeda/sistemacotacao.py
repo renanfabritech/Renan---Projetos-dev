@@ -53,14 +53,14 @@ def atualizar_cotacoes():
                 timestamp = int(cotacao['timestamp'])
                 bid = float(cotacao['bid'])
                 data = datetime.fromtimestamp(timestamp)
-                data = data.strftime('%Y-%m-%d')  # ou outro formato desejado
+                data = data.strftime('%d-%m-%y')  # ou outro formato desejado
                 if data not in df:
                     df[data] = np.nan
                     
                 df.loc[df.iloc[:, 0] == moeda, data] = bid
     df.to_excel("teste.xlsx")
     label_atualizarcotacoes['text'] = "Arquivo atualizado com sucesso"
-    
+    print(link)
                 
             
     # Para cada moeda
